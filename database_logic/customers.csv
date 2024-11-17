@@ -1,0 +1,51 @@
+CustomerID,Name,Age,Gender,Location,SubscriptionStartDate,SubscriptionEndDate
+1,Customer_1,35,Female,New York,2023-09-13,2024-03-19
+2,Customer_2,19,Female,Chicago,2023-01-30,2024-07-23
+3,Customer_3,26,Female,Houston,2023-03-22,2024-07-20
+4,Customer_4,46,Male,Los Angeles,2023-07-01,2024-02-28
+5,Customer_5,57,Male,Chicago,2023-01-14,2024-08-16
+6,Customer_6,57,Female,Los Angeles,2023-04-28,2024-07-25
+7,Customer_7,64,Female,New York,2023-04-06,2024-10-12
+8,Customer_8,34,Female,Los Angeles,2023-11-09,2024-06-27
+9,Customer_9,34,Female,Houston,2023-03-30,2024-09-10
+10,Customer_10,21,Male,Phoenix,2023-06-24,2024-08-22
+11,Customer_11,35,Male,Phoenix,2023-11-13,2024-07-14
+12,Customer_12,36,Female,Phoenix,2023-04-18,2024-06-21
+13,Customer_13,37,Female,Houston,2023-04-27,2024-03-30
+14,Customer_14,28,Female,Phoenix,2023-02-15,2024-07-09
+15,Customer_15,50,Female,Phoenix,2023-06-24,2024-09-29
+16,Customer_16,30,Female,Phoenix,2023-08-02,2024-12-06
+17,Customer_17,36,Male,New York,2023-07-11,2024-02-03
+18,Customer_18,63,Female,New York,2023-10-06,2024-04-01
+19,Customer_19,44,Male,New York,2023-10-11,2024-10-14
+20,Customer_20,35,Male,Houston,2023-03-24,2024-07-23
+21,Customer_21,43,Female,Chicago,2023-07-27,2024-10-12
+22,Customer_22,26,Female,Los Angeles,2023-05-29,2024-07-24
+23,Customer_23,34,Male,New York,2023-10-02,2024-11-25
+24,Customer_24,54,Male,Chicago,2023-05-14,2024-02-28
+25,Customer_25,51,Female,New York,2023-11-18,2024-09-07
+26,Customer_26,18,Female,New York,2023-06-21,2024-05-10
+27,Customer_27,56,Male,Chicago,2023-11-11,2024-03-17
+28,Customer_28,41,Male,Los Angeles,2023-02-08,2024-08-23
+29,Customer_29,33,Male,Houston,2023-01-20,2024-07-06
+30,Customer_30,57,Male,Houston,2023-03-06,2024-10-21
+31,Customer_31,37,Female,Houston,2023-12-06,2024-02-21
+32,Customer_32,35,Male,Chicago,2023-03-19,2024-09-28
+33,Customer_33,60,Male,Houston,2023-07-01,2024-12-15
+34,Customer_34,34,Female,Phoenix,2023-11-30,2024-02-29
+35,Customer_35,53,Male,Phoenix,2023-07-07,2024-08-06
+36,Customer_36,58,Female,Chicago,2023-12-09,2024-04-29
+37,Customer_37,51,Male,Chicago,2023-07-01,2024-11-17
+38,Customer_38,25,Male,Chicago,2023-07-12,2024-05-17
+39,Customer_39,26,Female,New York,2023-07-29,2024-08-06
+40,Customer_40,38,Male,Los Angeles,2023-06-16,2024-01-25
+41,Customer_41,30,Male,New York,2023-07-31,2024-04-23
+42,Customer_42,35,Male,Los Angeles,2023-10-20,2024-12-11
+43,Customer_43,43,Male,Chicago,2023-02-12,2024-08-26
+44,Customer_44,57,Male,Chicago,2023-11-27,2024-07-07
+45,Customer_45,36,Male,Phoenix,2023-01-11,2024-01-31
+46,Customer_46,29,Female,Phoenix,2023-05-19,2024-05-03
+47,Customer_47,32,Male,Chicago,2023-09-29,2024-09-01
+48,Customer_48,58,Female,Los Angeles,2023-02-15,2024-03-30
+49,Customer_49,56,Female,Los Angeles,2023-11-20,2024-12-24
+50,Customer_50,58,Male,Phoenix,2023-04-18,2024-05-19
