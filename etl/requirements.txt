@@ -1,4 +1,6 @@
 annotated-types==0.7.0
+sqlalchemy>=1.4
+psycopg2-binary
 anyio==4.6.2.post1
 certifi==2024.8.30
 click==8.1.7
