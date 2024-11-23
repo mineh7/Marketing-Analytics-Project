@@ -1,59 +1,46 @@
-import os
-from sqlalchemy import create_engine, Column, Integer, String, Date, Float, ForeignKey
-from sqlalchemy.orm import relationship, sessionmaker, declarative_base
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+from database import Base, engine
 
-# Use SQLAlchemy's declarative_base
-Base = declarative_base()
+Base= declarative_base()
 
-# Define the Customers table
+
+# Customer Model
 class Customer(Base):
     __tablename__ = 'customers'
-    CustomerID = Column(Integer, primary_key=True)
-    Name = Column(String, nullable=False)
-    Age = Column(Integer)
-    Gender = Column(String)
-    Location = Column(String)
-    SubscriptionStartDate = Column(Date)
-    SubscriptionEndDate = Column(Date)
+    customer_id = Column(Integer, primary_key=True) 
+    name = Column(String)
+    age = Column(Integer)
+    gender = Column(String)
+    location = Column(String)
+    transactions = relationship("Transaction", back_populates="customer")
+    usage = relationship("Usage", back_populates="customer")
     feedback = relationship("Feedback", back_populates="customer")
 
-# Define the Transactions table
-class Transaction(Base):
-    __tablename__ = 'transactions'
-    TransactionID = Column(Integer, primary_key=True)
-    CustomerID = Column(Integer, ForeignKey('customers.CustomerID'))
-    PaymentDate = Column(Date)
-    Amount = Column(Float)
-    PlanType = Column(String)
-
-# Define the Usage table
+# Usage Model
 class Usage(Base):
     __tablename__ = 'usage'
-    UsageID = Column(Integer, primary_key=True)
-    CustomerID = Column(Integer, ForeignKey('customers.CustomerID'))
-    FeatureName = Column(String)
-    UsageFrequency = Column(Integer)
-    LastUsedDate = Column(Date)
+    usage_id = Column(Integer, primary_key=True)
+    feature_name = Column(String)
+    usage_frequency = Column(Integer)
+    customer = relationship("Customer", back_populates="usage")
 
-# Define the Feedback table
+# Transaction Model
+class Transaction(Base):
+    __tablename__ = 'transactions'
+    transaction_id = Column(Integer, primary_key=True)
+    amount = Column(Float)
+    plan_type = Column(String)
+    customer = relationship("Customer", back_populates="transactions")
+
+# Feedback Model
 class Feedback(Base):
     __tablename__ = 'feedback'
-    FeedbackID = Column(Integer, primary_key=True)
-    CustomerID = Column(Integer, ForeignKey('customers.CustomerID'))
-    FeedbackText = Column(String)
-    Rating = Column(Integer)
-    SubmissionDate = Column(Date)
+    feedback_id = Column(Integer, primary_key=True)
+    feedback_text = Column(String)
+    rating = Column(Integer)
     customer = relationship("Customer", back_populates="feedback")
-
-# Get the database URL from the environment variable
-database_url = os.getenv("DATABASE_URL", "postgresql://user:password@localhost/db_name")
-
-# Create the database engine
-engine = create_engine(database_url)
 
 # Create all tables
 Base.metadata.create_all(engine)
-
-# Session setup
-Session = sessionmaker(bind=engine)
-session = Session()
