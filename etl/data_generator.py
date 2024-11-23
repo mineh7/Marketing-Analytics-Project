@@ -14,9 +14,7 @@ def generate_customer(customer_id):
         "name": fake.name(),
         "age": random.randint(18, 80),
         "gender": random.choice(["Male", "Female", "Other"]),
-        "location": fake.city(),
-        "subscription_start_date": fake.date_between(start_date='-2y', end_date='-1y'),
-        "subscription_end_date": fake.date_between(start_date='-1y', end_date='today')
+        "location": fake.city()
     }
 
 # Generate Usage
@@ -53,6 +51,5 @@ def generate_feedback(feedback_id, customer_id):
         "feedback_id": feedback_id,
         "customer_id": customer_id,
         "feedback_text": fake.sentence(),
-        "rating": random.randint(1, 5),  # Rating between 1 and 5
-        "submission_date": fake.date_between(start_date='-1y', end_date='today')
+        "rating": random.randint(1, 5)
     }
