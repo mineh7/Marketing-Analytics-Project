@@ -3,13 +3,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from database import Base, engine
 
-Base= declarative_base()
-
+Base = declarative_base()
 
 # Customer Model
 class Customer(Base):
-    __tablename__ = 'customers'
-    customer_id = Column(Integer, primary_key=True) 
+    __tablename__ = 'customers' 
+    customer_id = Column(Integer, primary_key=True)
     name = Column(String)
     age = Column(Integer)
     gender = Column(String)
@@ -20,26 +19,29 @@ class Customer(Base):
 
 # Usage Model
 class Usage(Base):
-    __tablename__ = 'usage'
+    __tablename__ = 'usage'  
     usage_id = Column(Integer, primary_key=True)
     feature_name = Column(String)
     usage_frequency = Column(Integer)
+    customer_id = Column(Integer, ForeignKey('customers.customer_id'))  
     customer = relationship("Customer", back_populates="usage")
 
 # Transaction Model
 class Transaction(Base):
-    __tablename__ = 'transactions'
+    __tablename__ = 'transactions' 
     transaction_id = Column(Integer, primary_key=True)
     amount = Column(Float)
     plan_type = Column(String)
+    customer_id = Column(Integer, ForeignKey('customers.customer_id'))  
     customer = relationship("Customer", back_populates="transactions")
 
 # Feedback Model
 class Feedback(Base):
-    __tablename__ = 'feedback'
+    __tablename__ = 'feedback'  
     feedback_id = Column(Integer, primary_key=True)
     feedback_text = Column(String)
     rating = Column(Integer)
+    customer_id = Column(Integer, ForeignKey('customers.customer_id'))  
     customer = relationship("Customer", back_populates="feedback")
 
 # Create all tables
