@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from database import Base, engine
+import datetime
 
 Base = declarative_base()
 
@@ -23,6 +24,8 @@ class Usage(Base):
     usage_id = Column(Integer, primary_key=True)
     feature_name = Column(String)
     usage_frequency = Column(Integer)
+    payment_date = Column(DateTime, default=datetime.datetime.utcnow)  
+    last_used_date = Column(DateTime, default=datetime.datetime.utcnow)  
     customer_id = Column(Integer, ForeignKey('customers.customer_id'))  
     customer = relationship("Customer", back_populates="usage")
 
@@ -32,6 +35,8 @@ class Transaction(Base):
     transaction_id = Column(Integer, primary_key=True)
     amount = Column(Float)
     plan_type = Column(String)
+    payment_date = Column(DateTime, default=datetime.datetime.utcnow)  
+    last_used_date = Column(DateTime, default=datetime.datetime.utcnow)  
     customer_id = Column(Integer, ForeignKey('customers.customer_id'))  
     customer = relationship("Customer", back_populates="transactions")
 
