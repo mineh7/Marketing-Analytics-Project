@@ -163,7 +163,7 @@ The Data science part is done right and the connection to the DB is there but ca
 
 
 
-<span style="color:red; font-weight:bold;">Final Grade: 47/100</span>
+<span style="color:red; font-weight:bold;">Final Grade: 47/70</span>
 
 
 
