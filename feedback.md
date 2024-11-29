@@ -133,62 +133,37 @@ PythonPackageProject/ #githhub repo
 7. Create pull request for the Product Manager
 
 
-## API Developer | 30 points
-
-1. Create a new `git branch` and name it `back`
-2. Create a new service and name it `back`
-3. Communicate with the DB Developer and PM in order to design the API
-4. You can create dummy endpoints in the beginning (PSS will be available)
-5. The following endpoints must be available:
-   1. GET
-   2. POST
-   3. PUT
-   4. DELETE
-6. Push your works to respective branch
-7. Create pull request for the Product Manager
-
-
 # Milestone 2 | Feedback
 
 ## Product and Project Manager | 20 Points
 
-1. `MkDocs` isn't installed.
-2. The file structure some things are missing the docker files, docker-compose.yaml, yourapplication folder that will have all the services and other files. What you have are the services which are out of the yourapplication folder but there are no docker files in any of them.
+1. `MkDocs`  installed and the page is ready.
+2. The file structure seems **correct**.
 3. The ERD seems **correct**.
 
-<span style="color:red">Grade: 5/20</span>
+<span style="color:red">Grade: 15/20</span>
 
 ---
 
 ## Database Developer | 30 Points
 
-From a database development perspective,there is the database section but I can’t find models.py or schema.py you only created the tables. But for DB creation I don’t want to see SQL queries I want all be created in pythonic way using SQLalchemy library. There is no pgadmin or postgresql.
+The database is setup correctly.
 
-<span style="color:green">Grade: 10/30</span>
+<span style="color:green">Grade: 20/30</span>
 
 ---
 
 ## Data Scientist and Data Analyst | 20 Points
 
-The section is there. There should only be the data simulation which I can’t find it there and modeling part which is there. The add, delete, and update should have been in the api part not the database.
+The Data science part is done right and the connection to the DB is there but can't find the prediction table in the DB .
 
-The connection to the DB is there but it is done the wrong way .
-
-<span style="color:red">Grade: 5/20</span>
-
----
-
-## API Developer | 30 Points
-
-There is no API section.
-
-<span style="color:green">Grade: 0/30</span>
+<span style="color:red">Grade: 12/20</span>
 
 ---
 
 
 
-<span style="color:red; font-weight:bold;">Final Grade: 20/100</span>
+<span style="color:red; font-weight:bold;">Final Grade: 47/70</span>
 
 
 
@@ -200,14 +175,6 @@ There is no API section.
    - Refactored the project file structure with services isolated.
    - Updated the ERD diagram to include the missing results table.
    - Applied a new database name across the project.
-2. Design all the endpoints required and share them with the Backend and Frontend teams:
-   - Ensure the endpoints cover the functionality needed for the web application to work.
-3. Support the Frontend Engineer in finalizing the UI (no need to connect with FastAPI within this milestone; this will be done in Milestone 4):
-   - Research Streamlit components/elements.
-   - Suggest appropriate elements.
-
-**Note**: No need to reinvent the wheel—stick with built-in Streamlit functionality.
-
 ---
 
 ## Database Developer | 10 Points
@@ -226,12 +193,3 @@ There is no API section.
 
 ---
 
-## API Developer | 30 Points
-
-1. Create **all** the required endpoints (coordinate with the Product Manager).
-2. Create schemas using [Pydantic](https://fastapi.tiangolo.com/tutorial/response-model/):
-   - **Response Models**: Define the structure of the return values.
-   - **Documentation**: Add docstrings to all your endpoints.
-3. Push the final output to the respective **branch**.
-
----
