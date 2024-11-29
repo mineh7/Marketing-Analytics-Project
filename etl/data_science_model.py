@@ -5,19 +5,27 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report
+import joblib
 
 # Establish database session
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Step 1: Fetch data from database
-def fetch_data():
+def fetch_and_prepare_data():
+    """
+    Fetch and merge customer-related data from the database, preparing it for modeling.
+
+    Returns:
+        DataFrame: Cleaned and combined data for modeling.
+    """
     # Fetch customers
     customers = session.query(Customer).all()
     customers_df = pd.DataFrame([{
         'customer_id': c.customer_id,
         'age': c.age,
-        'location': c.location
+        'gender': c.gender,
+        'location': c.location,
+        'churn_prediction': c.churn_prediction
     } for c in customers])
 
     # Fetch usage
@@ -37,56 +45,96 @@ def fetch_data():
     } for t in transactions])
 
     # Merge datasets on customer_id
-    merged_df = customers_df.merge(usage_df, on="customer_id", how="left")
-    merged_df = merged_df.merge(transactions_df, on="customer_id", how="left")
-    return merged_df
+    data = customers_df.merge(usage_df, on="customer_id", how="left")
+    data = data.merge(transactions_df, on="customer_id", how="left")
 
-# Step 2: Train and predict
-def train_and_predict(data):
-    # Simulate a churn column (e.g., churn if usage frequency < 5 or low rating)
-    data['churn'] = (data['usage_frequency'] < 5).astype(int)
+    # Fill missing values and encode categorical data
+    data['plan_type'] = data['plan_type'].fillna('Unknown')
+    data['amount'] = data['amount'].fillna(0)
+    data['usage_frequency'] = data['usage_frequency'].fillna(0)
 
+    # One-hot encode categorical features
+    data = pd.get_dummies(data, columns=['gender', 'plan_type', 'location'], drop_first=True)
+    return data
+
+def train_model(data):
+    """
+    Train a machine learning model to predict churn.
+
+    Args:
+        data (DataFrame): Cleaned data prepared for modeling.
+
+    Returns:
+        RandomForestClassifier: Trained machine learning model.
+        DataFrame: Updated DataFrame with churn predictions.
+    """
     # Features and target
-    features = ['age', 'usage_frequency', 'amount']  # Example features
-    target = 'churn'
+    features = [col for col in data.columns if col not in ['customer_id', 'churn_prediction']]
+    target = 'churn_prediction'
 
-    X = data[features].fillna(0)  # Fill missing values
+    X = data[features]
     y = data[target]
 
-    # Split data
+    # Train-test split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    # Train model
+    # Train a Random Forest model
     model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
 
-    # Predict
+    # Evaluate the model
     y_pred = model.predict(X_test)
+    print("Model Evaluation:")
     print(classification_report(y_test, y_pred))
 
-    # Predict for all data
+    # Predict for all customers
     data['predicted_churn'] = model.predict(X)
-    return data
+    return model, data
 
-# Step 3: Update predictions back to the database
-def update_predictions(data):
+def update_predictions_in_database(data):
+    """
+    Update churn predictions in the Customer table.
+
+    Args:
+        data (DataFrame): DataFrame containing customer features and churn predictions.
+    """
     for _, row in data.iterrows():
         customer = session.query(Customer).filter_by(customer_id=row['customer_id']).first()
         if customer:
             customer.churn_prediction = int(row['predicted_churn'])
             session.commit()
 
+def save_model(model, filename="final_model.pkl"):
+    """
+    Save the trained model to a file.
+
+    Args:
+        model: Trained machine learning model.
+        filename (str): Path to save the model file.
+    """
+    joblib.dump(model, filename)
+    print(f"Model saved to {filename}.")
+
 if __name__ == "__main__":
-    # Fetch data
-    print("Fetching data...")
-    data = fetch_data()
+    """
+    Main execution for the data science model.
 
-    # Train model and predict
-    print("Training model and making predictions")
-    data_with_predictions = train_and_predict(data)
+    Steps:
+    1. Fetch and prepare data from the database.
+    2. Train a machine learning model to predict churn.
+    3. Update predictions in the database.
+    4. Save the trained model for future use.
+    """
+    print("Fetching and preparing data...")
+    data = fetch_and_prepare_data()
 
-    # Update predictions in the database
-    print("Updating predictions in the database")
-    update_predictions(data_with_predictions)
+    print("Training the model...")
+    model, data_with_predictions = train_model(data)
 
-    print("Predictions successfully integrated!")
+    print("Updating predictions in the database...")
+    update_predictions_in_database(data_with_predictions)
+
+    print("Saving the model...")
+    save_model(model)
+
+    print("Model training and prediction process completed successfully!")

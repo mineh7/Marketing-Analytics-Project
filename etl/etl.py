@@ -34,7 +34,13 @@ session = Session()
 
 # Data generation
 def generate_and_save_data():
-    """Generate data and save as CSV files."""
+    """
+    Generate synthetic customer, usage, transaction, and feedback data
+    and save them as CSV files in the data folder.
+
+    The function uses predefined constants to determine the number of records
+    to generate for each dataset.
+    """
     # Generate customers
     customers = pd.DataFrame([generate_customer(customer_id) for customer_id in range(1, NUMBER_OF_CUSTOMERS + 1)])
     customers.to_csv(f"{DATA_FOLDER}customers.csv", index=False)
@@ -53,6 +59,7 @@ def generate_and_save_data():
         generate_transaction(transaction_id, random.randint(1, NUMBER_OF_CUSTOMERS))
         for transaction_id in range(1, NUMBER_OF_TRANSACTIONS + 1)
     ])
+    transactions['last_used_date'] = pd.Timestamp.now()  
     transactions.to_csv(f"{DATA_FOLDER}transactions.csv", index=False)
     logger.info(f"Generated transactions.csv with {len(transactions)} records.")
 
@@ -67,14 +74,14 @@ def generate_and_save_data():
 # Load data into the database
 def load_csv_to_table(table_name, csv_path):
     """
-    Load data from a CSV file into a database table.
+    Load data from a CSV file into a specified database table.
 
     Args:
-    - table_name: Name of the database table.
-    - csv_path: Path to the CSV file containing data.
+        table_name (str): Name of the database table.
+        csv_path (str): Path to the CSV file containing data.
 
-    Returns:
-    - None
+    Raises:
+        Exception: If there is an issue during the data loading process.
     """
     df = pd.read_csv(csv_path)
     df.to_sql(table_name, con=engine, if_exists="append", index=False)
@@ -83,7 +90,10 @@ def load_csv_to_table(table_name, csv_path):
 # Fetch data for predictions
 def fetch_data_for_predictions():
     """
-    Fetch and combine data from the database for prediction purposes.
+    Fetch and combine data from the database for training and prediction purposes.
+
+    Returns:
+        DataFrame: Combined data from multiple tables (customers, usage, and transactions).
     """
     customers = session.query(Customer).all()
     usage = session.query(Usage).all()
@@ -115,13 +125,13 @@ def fetch_data_for_predictions():
 # Prediction function
 def train_and_predict(data):
     """
-    Train a model and predict churn based on customer data.
+    Train a machine learning model and predict churn based on customer data.
 
     Args:
-    - data: Combined customer data (DataFrame).
+        data (DataFrame): Combined customer data.
 
     Returns:
-    - Updated DataFrame with predictions.
+        DataFrame: Updated DataFrame with churn predictions.
     """
     # Simulate churn column
     data['churn'] = (data['usage_frequency'] < 5).astype(int)
@@ -152,7 +162,7 @@ def update_predictions_in_database(data):
     Update churn predictions in the database.
 
     Args:
-    - data: DataFrame with predictions.
+        data (DataFrame): DataFrame containing churn predictions.
     """
     for _, row in data.iterrows():
         customer = session.query(Customer).filter_by(customer_id=row['customer_id']).first()
@@ -161,6 +171,17 @@ def update_predictions_in_database(data):
             session.commit()
 
 if __name__ == "__main__":
+
+    """
+    Main function to run the ETL pipeline.
+
+    Steps:
+    1. Generate synthetic data and save as CSV files.
+    2. Load data into the database.
+    3. Fetch and combine data for prediction.
+    4. Train a model and make churn predictions.
+    5. Update churn predictions in the database.
+    """
     # Step 1: Data generation
     logger.info("Starting data generation...")
     generate_and_save_data()
