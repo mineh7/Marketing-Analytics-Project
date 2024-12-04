@@ -193,3 +193,52 @@ The Data science part is done right and the connection to the DB is there but ca
 
 ---
 
+# Milestone 3 | Feedback
+
+## Product and Project Manager | 40 Points
+- You have the db and modling in the same service it should be seperate.
+- Updated the ERD diagram to include the missing results table seems **correct** but the results table is emtpy.
+- I needed to fix your docker-compose file because your code wasn't working.
+- Mkdocs is not working.
+
+<span style="color:red; font-weight:bold;">Grade: 15/40</span>
+
+
+## Database Developer | 10 Points
+
+1. The tables were created but the results table was empty.
+2. mkdocs wasn't working.
+
+<span style="color:red; font-weight:bold;">Grade: 5/10</span>
+
+
+## Data Scientist | 20 Points
+
+1. The final model was the same as previous milestone.
+2. Final out put is not shown in the database.
+
+<span style="color:red; font-weight:bold;">Grade: 5/20</span>
+
+<span style="color:red; font-weight:bold;">Fianl Grade: 25/70</span>
+
+# Milestone 4 | Tasks
+## Final touches (30)
+- **DB Developer:** Implement any database adjustments as required by new visual analytics features.
+- **Data Scientist:** Finalize the model and prepare visual outputs for frontend integration.
+## Documentation (30 points)
+- Create comprehensive documentation using **MkDocs**.
+- Each service (e.g., api, app, database, model) should have its own dedicated page with the documentation.
+- The first page should provide a high-level overview detailing the **Problem**, **Solution**, and **Expected Outcomes**.
+- Host the completed documentation on **GitHub Pages**.
+---
+## README.md (25 points)
+- The `README.md` must be as informative as possible. Include:
+  - Weblinks:
+    - **MkDocs**
+    - **pgadmin**
+    - **streamlit**
+    - **swagger**
+  - Steps for running the product (check my demo repo).
+---
+## Repository Management (15 points)
+- Clean up the repository to ensure it contains no extraneous files.
