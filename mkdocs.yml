@@ -1,18 +1,18 @@
-site_name: "My Project Documentation"
+site_name: "Marketing Analytics Project Documentation"
 theme:
   name: material
 
 nav:
   - Home: index.md
-  - Getting Started:
-      - Overview: getting-started/overview.md
-      - Installation: getting-started/installation.md
+  - Feedback: feedback.md
   - Services:
       - PostgreSQL: services/postgres.md
       - PgAdmin: services/pgadmin.md
       - ETL: services/etl.md
-  - License: license.md
-
+  - Roadmap: roadmap.png
+  - ERD:
+      - New ERD: newERD.pdf
+  - Readme: readme.md
 markdown_extensions:
   - toc:
       permalink: true
