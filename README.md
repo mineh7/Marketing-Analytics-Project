@@ -63,32 +63,6 @@ The challenge is to understand **why customers churn** and implement data-driven
 - **Customer Lifetime Value (CLV)**: Revenue generated per customer.
 - **Model Performance**: Reduction in churn prediction errors.
 
----
-
-## Installation and Setup
-
-### Prerequisites
-- **Docker**: [Install Docker](https://docs.docker.com/get-docker/)
-- **Docker Compose**: [Install Docker Compose](https://docs.docker.com/compose/install/)
-
-### Steps to Run the Project
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/marketing-analytics-project.git
-   cd marketing-analytics-project
-   ```
-
-2. Build and start the services using Docker Compose:
-   ```bash
-   docker-compose up --build
-   ```
-
-3. Access the services:
-   - **pgAdmin**: [http://localhost:5050](http://localhost:5050)
-     - Email: `admin@admin.com`
-     - Password: `password`
-   - **Documentation (MkDocs)**: [http://localhost:8000](http://localhost:8000)
 
 ---
 
@@ -99,25 +73,6 @@ The challenge is to understand **why customers churn** and implement data-driven
 - **[MkDocs Documentation](https://mineh7.github.io/Marketing-Analytics-Project/)**:
 - **[pgAdmin Interface](http://localhost:5050)**: 
 
-
----
-
-## Project Structure
-
-Here’s an overview of the project’s file structure:
-
-```bash
-.
-├── README.md             # Project documentation
-├── .env                  # Environment variables
-├── docker-compose.yml    # Docker Compose configuration
-├── data/                 # Folder containing synthetic datasets
-├── docs/                 # Documentation files
-├── etl/                  # ETL pipeline scripts
-├── models.py             # Database schema
-├── requirements.txt      # Python dependencies
-└── scripts/              # Supporting Python scripts
-```
 
 ---
 
