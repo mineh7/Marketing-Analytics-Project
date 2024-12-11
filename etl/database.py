@@ -29,7 +29,6 @@ def get_db():
     finally:
         db.close()
 
-
 # Load environment variables from the `.env` file
 load_dotenv(".env")
 

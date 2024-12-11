@@ -78,19 +78,11 @@ def load_csv_to_table(table_name, csv_path):
     """
     Load data from a CSV file into a database table.
     Skips rows with duplicate primary keys using ON CONFLICT DO NOTHING.
-
-    Args:
-        table_name (str): Name of the database table.
-        csv_path (str): Path to the CSV file containing data.
     """
     try:
-        # Load CSV into DataFrame
         df = pd.read_csv(csv_path)
-
-        # Use SQLAlchemy to insert rows with conflict handling
         with engine.connect() as connection:
             for _, row in df.iterrows():
-                # Build INSERT query with ON CONFLICT DO NOTHING
                 query = text(f"""
                     INSERT INTO {table_name} ({', '.join(df.columns)})
                     VALUES ({', '.join([':{}'.format(col) for col in df.columns])})
@@ -105,34 +97,15 @@ def load_csv_to_table(table_name, csv_path):
 def fetch_data_for_predictions():
     """
     Fetch and combine data from the database for training and prediction purposes.
-
-    Returns:
-        DataFrame: Combined customer data.
     """
     session = SessionLocal()
     try:
         customers = session.query(Customer).all()
         usage = session.query(Usage).all()
         transactions = session.query(Transaction).all()
-
-        # Convert data into DataFrames
-        customers_df = pd.DataFrame([{
-            'customer_id': c.customer_id,
-            'age': c.age,
-            'location': c.location
-        } for c in customers])
-
-        usage_df = pd.DataFrame([{
-            'customer_id': u.customer_id,
-            'usage_frequency': u.usage_frequency
-        } for u in usage])
-
-        transactions_df = pd.DataFrame([{
-            'customer_id': t.customer_id,
-            'amount': t.amount
-        } for t in transactions])
-
-        # Merge data into one DataFrame
+        customers_df = pd.DataFrame([{'customer_id': c.customer_id, 'age': c.age, 'location': c.location} for c in customers])
+        usage_df = pd.DataFrame([{'customer_id': u.customer_id, 'usage_frequency': u.usage_frequency} for u in usage])
+        transactions_df = pd.DataFrame([{'customer_id': t.customer_id, 'amount': t.amount} for t in transactions])
         data = customers_df.merge(usage_df, on="customer_id", how="left")
         data = data.merge(transactions_df, on="customer_id", how="left")
         return data
@@ -143,32 +116,17 @@ def fetch_data_for_predictions():
 def train_and_predict(data):
     """
     Train a machine learning model and predict churn probabilities.
-
-    Args:
-        data (DataFrame): Combined customer data.
-
-    Returns:
-        DataFrame: Updated DataFrame with predictions and probabilities.
     """
     data['churn'] = (data['usage_frequency'] < 5).astype(int)
-
-    # Features and target
     features = ['age', 'usage_frequency', 'amount']
     X = data[features].fillna(0)
     y = data['churn']
-
-    # Train-test split
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-    # Train the model
     model = RandomForestClassifier(random_state=42)
     model.fit(X_train, y_train)
-
-    # Evaluate the model
     y_pred = model.predict(X_test)
-    print(classification_report(y_test, y_pred))
-
-    # Predict probabilities
+    logger.info("Model Classification Report:")
+    logger.info(classification_report(y_test, y_pred))
     data['predicted_churn'] = model.predict(X)
     data['churn_probability'] = model.predict_proba(X)[:, 1]
     return data
@@ -177,9 +135,6 @@ def train_and_predict(data):
 def populate_results_table(data):
     """
     Populate the results table with prediction data.
-
-    Args:
-        data (DataFrame): DataFrame containing prediction results.
     """
     session = SessionLocal()
     try:
@@ -199,21 +154,12 @@ def populate_results_table(data):
 # Main ETL Process
 if __name__ == "__main__":
     logger.info("Starting ETL process...")
-
-    # Load data into database
     folder_path = f"{DATA_FOLDER}*.csv"
     files = glob.glob(folder_path)
     for file_path in files:
         table_name = path.splitext(path.basename(file_path))[0]
         load_csv_to_table(table_name, file_path)
-
-    # Fetch data for predictions
     data_for_predictions = fetch_data_for_predictions()
-
-    # Train model and generate predictions
     data_with_predictions = train_and_predict(data_for_predictions)
-
-    # Populate results table
     populate_results_table(data_with_predictions)
-
     logger.info("ETL process completed.")

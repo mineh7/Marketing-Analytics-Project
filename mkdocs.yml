@@ -12,6 +12,11 @@ nav:
   - Roadmap: roadmap.png
   - ERD:
       - New ERD: newERD.pdf
+  - Churn Logic:
+      - Overview: churn/overview.md
+      - Churn Drivers: churn/churn_drivers.md
+      - Churn Prediction: churn/churn_prediction.md
+      - Churn Visualizations: churn/churn_visualizations.md
   - Readme: readme.md
 markdown_extensions:
   - toc:
