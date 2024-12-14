@@ -1,5 +1,4 @@
 services:
-
   db:
     container_name: postgresql_db
     image: postgres
@@ -28,7 +27,7 @@ services:
     ports:
       - 5050:80 # for local browser
     volumes:
-      - ./pgadmin_data:/var/lib/pgadmin  # Persisting pgAdmin configuration and sessions
+      - pgadmin-data:/var/lib/pgadmin  # Persisting pgAdmin configuration and sessions
     depends_on: 
       - db
 
@@ -46,3 +45,7 @@ services:
         condition: service_healthy
     healthcheck:
       test: "exit 0"
+
+volumes:
+  pgadmin-data:
+    driver: local
