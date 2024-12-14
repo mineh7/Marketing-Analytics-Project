@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Float, DateTime
 from sqlalchemy.orm import relationship
 from database import Base, engine
+from sqlalchemy.sql import func
 import datetime
 
 # Customer Model
@@ -57,6 +58,7 @@ class Result(Base):
     customer_id = Column(Integer, ForeignKey('customers.customer_id'), nullable=False)
     prediction = Column(String, nullable=False)  # Churn prediction result
     probability = Column(Float, nullable=False)  # Probability of the prediction 
+    created_at = Column(DateTime, default=func.now(), nullable=False)
     customer = relationship("Customer", back_populates="results")
 
 # Campaigns Model
